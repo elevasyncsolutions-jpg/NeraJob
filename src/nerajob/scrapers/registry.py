@@ -6,6 +6,7 @@ from nerajob.scrapers.arbeitnow import ArbeitnowScraper
 from nerajob.scrapers.ashby import AshbyScraper
 from nerajob.scrapers.base import BaseScraper
 from nerajob.scrapers.jobicy import JobicyScraper
+from nerajob.scrapers.jooble import JoobleScraper
 from nerajob.scrapers.lever import LeverScraper
 from nerajob.scrapers.remoteok import RemoteOKScraper
 from nerajob.scrapers.remotive import RemotiveScraper
@@ -36,6 +37,7 @@ def available_scrapers() -> dict[str, BaseScraper]:
         RemotiveScraper(),
         ArbeitnowScraper(),
         JobicyScraper(),
+        JoobleScraper(),
         TheMuseScraper(),
         WeWorkRemotelyScraper(),
         LeverScraper(board_name=os.getenv("NERAJOB_LEVER_BOARD") or None),
