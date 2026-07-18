@@ -48,7 +48,9 @@ class TheMuseScraper(BaseScraper):
         headers = {"User-Agent": user_agent(), "Accept": "application/json"}
         params = {"page": 1, "descending": "true"}
         try:
-            with httpx.Client(timeout=http_timeout(), headers=headers, follow_redirects=True) as client:
+            with httpx.Client(
+                timeout=http_timeout(), headers=headers, follow_redirects=True
+            ) as client:
                 response = client.get(self.API_URL, params=params)
                 response.raise_for_status()
                 payload = response.json()
@@ -72,10 +74,14 @@ class TheMuseScraper(BaseScraper):
             if not title:
                 continue
             locs = item.get("locations") or []
-            place = ", ".join(
-                str(x.get("name") or "") for x in locs if isinstance(x, dict)
-            ) or "Remote"
-            cats = [str(c.get("name") or "").lower() for c in (item.get("categories") or []) if isinstance(c, dict)]
+            place = (
+                ", ".join(str(x.get("name") or "") for x in locs if isinstance(x, dict)) or "Remote"
+            )
+            cats = [
+                str(c.get("name") or "").lower()
+                for c in (item.get("categories") or [])
+                if isinstance(c, dict)
+            ]
             hay = f"{title} {company} {place} {' '.join(cats)} {item.get('contents', '')}".lower()
             if q and q not in hay:
                 continue
@@ -88,7 +94,11 @@ class TheMuseScraper(BaseScraper):
                     title=title,
                     company=company or "Unknown",
                     location=place,
-                    url=str(item.get("refs", {}).get("landing_page") if isinstance(item.get("refs"), dict) else "")
+                    url=str(
+                        item.get("refs", {}).get("landing_page")
+                        if isinstance(item.get("refs"), dict)
+                        else ""
+                    )
                     or f"https://www.themuse.com/jobs/{raw_id}",
                     description=str(item.get("contents") or "")[:4000],
                     tags=cats[:20],

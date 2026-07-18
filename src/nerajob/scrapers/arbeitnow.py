@@ -47,7 +47,9 @@ class ArbeitnowScraper(BaseScraper):
             return self._offline(query, limit)
         headers = {"User-Agent": user_agent(), "Accept": "application/json"}
         try:
-            with httpx.Client(timeout=http_timeout(), headers=headers, follow_redirects=True) as client:
+            with httpx.Client(
+                timeout=http_timeout(), headers=headers, follow_redirects=True
+            ) as client:
                 response = client.get(self.API_URL)
                 response.raise_for_status()
                 payload = response.json()
@@ -70,7 +72,9 @@ class ArbeitnowScraper(BaseScraper):
                 continue
             tags = [str(t).lower() for t in (item.get("tags") or []) if t]
             place = str(item.get("location") or "Remote")
-            hay = f"{title} {company} {place} {' '.join(tags)} {item.get('description', '')}".lower()
+            hay = (
+                f"{title} {company} {place} {' '.join(tags)} {item.get('description', '')}".lower()
+            )
             if q and q not in hay:
                 continue
             if loc and loc not in place.lower() and "remote" not in place.lower():

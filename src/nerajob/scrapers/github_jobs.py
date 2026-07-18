@@ -54,11 +54,11 @@ _OFFLINE = [
 class GitHubJobsScraper(BaseScraper):
     """
     GitHub Jobs public API.
-    
+
     Note: GitHub Jobs API was deprecated in 2022, but this scraper
     demonstrates the pattern for public API integration with proper
     mocking support for tests.
-    
+
     For production use, consider using GitHub's GraphQL API or
     other job board APIs.
     """
@@ -74,12 +74,12 @@ class GitHubJobsScraper(BaseScraper):
             "User-Agent": user_agent(),
             "Accept": "application/json",
         }
-        
+
         params = {
             "description": query,
             "full_time": "true",
         }
-        
+
         if location:
             params["location"] = location
 
@@ -97,10 +97,13 @@ class GitHubJobsScraper(BaseScraper):
 
         results: list[JobPosting] = []
         for item in data[:limit]:
-            job_id = item.get("id") or hashlib.md5(
-                (item.get("title", "") + item.get("company", "")).encode()
-            ).hexdigest()[:12]
-            
+            job_id = (
+                item.get("id")
+                or hashlib.md5(
+                    (item.get("title", "") + item.get("company", "")).encode()
+                ).hexdigest()[:12]
+            )
+
             results.append(
                 JobPosting(
                     id=f"github_{job_id}",
@@ -110,10 +113,9 @@ class GitHubJobsScraper(BaseScraper):
                     location=item.get("location", ""),
                     description=item.get("description", ""),
                     tags=[
-                        t.strip().lower()
-                        for t in (item.get("type") or "").split(",")
-                        if t.strip()
-                    ] or ["full-time"],
+                        t.strip().lower() for t in (item.get("type") or "").split(",") if t.strip()
+                    ]
+                    or ["full-time"],
                     url=item.get("url") or item.get("html_url") or "",
                     salary=item.get("salary") or "",
                 )
@@ -125,7 +127,7 @@ class GitHubJobsScraper(BaseScraper):
         """Return offline sample data filtered by query."""
         query_lower = query.lower()
         results: list[JobPosting] = []
-        
+
         for title, company, location, tags, url in _OFFLINE:
             if query_lower in title.lower() or query_lower in " ".join(tags).lower():
                 results.append(
@@ -140,5 +142,5 @@ class GitHubJobsScraper(BaseScraper):
                         url=url,
                     )
                 )
-        
+
         return results[:limit]

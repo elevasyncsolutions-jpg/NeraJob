@@ -47,9 +47,14 @@ class WeWorkRemotelyScraper(BaseScraper):
     def search(self, query: str, location: str = "", limit: int = 20) -> list[JobPosting]:
         if os.getenv("NERAJOB_WWR_OFFLINE", "").strip().lower() in {"1", "true", "yes"}:
             return self._offline(query, limit)
-        headers = {"User-Agent": user_agent(), "Accept": "application/rss+xml, application/xml, text/xml"}
+        headers = {
+            "User-Agent": user_agent(),
+            "Accept": "application/rss+xml, application/xml, text/xml",
+        }
         try:
-            with httpx.Client(timeout=http_timeout(), headers=headers, follow_redirects=True) as client:
+            with httpx.Client(
+                timeout=http_timeout(), headers=headers, follow_redirects=True
+            ) as client:
                 response = client.get(self.RSS_URL)
                 response.raise_for_status()
                 text = response.text

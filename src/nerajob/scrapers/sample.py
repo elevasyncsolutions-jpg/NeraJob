@@ -8,7 +8,12 @@ from nerajob.scrapers.base import BaseScraper
 SAMPLE_ROLES = [
     ("Security Analyst", "Shield Ops", "Remote", ["security", "siem", "python"]),
     ("Growth Marketer", "RemoteOK Demo", "Remote", ["marketing", "growth", "seo"]),
-    ("Senior Python Backend Engineer", "Northwind Labs", "Remote", ["python", "fastapi", "postgres"]),
+    (
+        "Senior Python Backend Engineer",
+        "Northwind Labs",
+        "Remote",
+        ["python", "fastapi", "postgres"],
+    ),
     ("Full-Stack Engineer", "Acme Global", "Berlin / Remote", ["python", "vue", "typescript"]),
     ("Platform Engineer", "Orbit Systems", "Singapore", ["python", "kubernetes", "aws"]),
     ("ML Engineer", "DataNest", "Remote", ["python", "pytorch", "mlops"]),

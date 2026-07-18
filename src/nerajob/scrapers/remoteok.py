@@ -26,7 +26,9 @@ class RemoteOKScraper(BaseScraper):
             "Accept": "application/json",
         }
         try:
-            with httpx.Client(timeout=http_timeout(), headers=headers, follow_redirects=True) as client:
+            with httpx.Client(
+                timeout=http_timeout(), headers=headers, follow_redirects=True
+            ) as client:
                 response = client.get(self.API_URL)
                 response.raise_for_status()
                 payload = response.json()
