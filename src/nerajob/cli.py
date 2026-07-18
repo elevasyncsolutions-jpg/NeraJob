@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from pathlib import Path
 
 import typer
 from rich.console import Console
@@ -21,7 +20,6 @@ from nerajob.storage import (
     load_jobs,
     load_profile,
     save_profile,
-    update_application_status,
     upsert_jobs,
 )
 
