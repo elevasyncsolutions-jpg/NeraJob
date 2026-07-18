@@ -99,7 +99,11 @@ class LeverScraper(BaseScraper):
                 "id": "abc123",
                 "text": "Senior Backend Engineer",
                 "description": "<p>Python and Go development</p>",
-                "categories": {"location": "Remote", "team": "Engineering", "commitment": "Full-time"},
+                "categories": {
+                    "location": "Remote",
+                    "team": "Engineering",
+                    "commitment": "Full-time",
+                },
                 "hostedUrl": "https://jobs.lever.co/company/abc123",
             },
         ]
@@ -107,5 +111,6 @@ class LeverScraper(BaseScraper):
 
 def _strip_html(value: str) -> str:
     import re
+
     text = re.sub(r"<[^>]+>", " ", value)
     return re.sub(r"\s+", " ", text).strip()

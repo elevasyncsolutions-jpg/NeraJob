@@ -62,7 +62,9 @@ class JobicyScraper(BaseScraper):
             params["geo"] = loc.lower()
 
         try:
-            with httpx.Client(timeout=http_timeout(), headers=headers, follow_redirects=True) as client:
+            with httpx.Client(
+                timeout=http_timeout(), headers=headers, follow_redirects=True
+            ) as client:
                 response = client.get(self.API_URL, params=params)
                 response.raise_for_status()
                 payload = response.json()
@@ -89,7 +91,9 @@ class JobicyScraper(BaseScraper):
             if level:
                 tags.append(level.lower())
             place = str(item.get("jobGeo") or "Remote").strip() or "Remote"
-            description = _strip_html(str(item.get("jobDescription") or item.get("jobExcerpt") or ""))
+            description = _strip_html(
+                str(item.get("jobDescription") or item.get("jobExcerpt") or "")
+            )
             hay = f"{title} {company} {place} {' '.join(tags)} {description}".lower()
             if query_lc and query_lc not in hay:
                 continue

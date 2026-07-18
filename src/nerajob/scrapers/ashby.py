@@ -109,5 +109,6 @@ class AshbyScraper(BaseScraper):
 
 def _strip_html(value: str) -> str:
     import re
+
     text = re.sub(r"<[^>]+>", " ", value)
     return re.sub(r"\s+", " ", text).strip()
